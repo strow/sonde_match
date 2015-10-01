@@ -34,5 +34,8 @@
 *.bak
 *~
 
-LIN/*
-!LIN/*.m
+LIN/*.rtp
+LIN/*.dat
+LIN/Old
+Old_mfiles
+LIN/sarta/*.rtp
