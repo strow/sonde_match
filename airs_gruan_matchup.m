@@ -5,7 +5,7 @@
 %
 
 loc = 'LIN';
-year = '2013'; 
+year = '2014'; 
 
 addpath /asl/packages/time
 addpath /asl/matlib_new/aslutil
@@ -13,6 +13,8 @@ addpath /asl/matlib_new/h4tools
 addpath /asl/matlib_new/rtptools
 addpath /home/tangborn/gruan_proc/airsind/
 addpath /asl/matlab2012/airs/readers/
+%addpath /home/sbuczko1/git/rtp_prod2/emis/
+%addpath /home/sbuczko1/git/rtp_prod2/util
 addpath /asl/packages/rtp_prod2/emis
 addpath /asl/packages/rtp_prod2/util 
 addpath /home/strow/Git/rtp_prod2/grib
@@ -23,7 +25,7 @@ rfile = [loc ,'_',year,'.rtp'];
 % Sonde profiles "_s"
 [head_s, hattr_s, prof_s, pattr_s] = rtpread(rfile);
 % debug next line
-[head_s,prof_s] = subset_rtp(head_s,prof_s,[],[],[1:40:length(prof_s.plat)]);
+% [head_s,prof_s] = subset_rtp(head_s,prof_s,[],[],[1:40:length(prof_s.plat)]);
 nprof = length(prof_s.plat);
 
 % Read in uncertainty profile

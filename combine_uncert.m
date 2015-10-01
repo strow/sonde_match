@@ -23,6 +23,7 @@ for iy=1:nyears
    p_all.plat(nobs_tot-nobs+1:nobs_tot)=p_year.plat(1:nobs);
    p_all.plon(nobs_tot-nobs+1:nobs_tot)=p_year.plon(1:nobs);
    p_all.ptime(nobs_tot-nobs+1:nobs_tot)=p_year.ptime(1:nobs);
+   p_all.rtime(nobs_tot-nobs+1:nobs_tot)=p_year.rtime(1:nobs); 
    p_all.u_rh(:,nobs_tot-nobs+1:nobs_tot)=p_year.u_rh(:,1:nobs); 
    p_all.u_temp(:,nobs_tot-nobs+1:nobs_tot)=p_year.u_temp(:,1:nobs); %nobs_tot-nobs+1:nobs_tot); 
 %   p_all.stemp(nobs_tot-nobs+1:nobs_tot)=p_year.stemp(1:nobs); 

@@ -16,8 +16,8 @@ gruan_year_path=['/asl/data/sondes/Gruan/' loc];
 % Don't yet know how to make multiple years work.
 years=dir(fullfile(gruan_year_path,'20*')); 
 nyears=length(years); 
-yyyy=9;  
-year='2013'; 
+yyyy=1;  
+year='2005'; 
 nfiles_total=0; 
 for iyear=yyyy:yyyy  % set up the initial prof structure for all years
     gruanpath=['/asl/data/sondes/Gruan/' loc,'/',years(iyear).name];
