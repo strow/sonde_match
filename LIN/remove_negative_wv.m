@@ -21,6 +21,8 @@ good_wv=find(min(p.gas_1)>0);
 [h_era_wv p_era_wv]=subset_rtp(h_era,p_era,[],[],good_wv); 
 p_unc_wv = rtp_sub_prof(p_unc,good_wv);
 
+p_wv.co2ppm=co2_vs_time(tai2dtime(p_wv.ptime));
+
 
 file_out=[loc,'_AIRS_wv.rtp']; 
 file_era_out=[loc,'_era_AIRS_wv.rtp']; 
