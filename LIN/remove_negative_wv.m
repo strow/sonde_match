@@ -2,10 +2,10 @@ addpath /asl/matlib_new/aslutil
 addpath /asl/matlib_new/h4tools
 addpath /asl/matlib_new/rtptools
 addpath /asl/packages/time
-addpath /home/strow/Git/rtp_prod2/grib
-addpath /home/strow/Git/rtp_prod2/util
-addpath /home/strow/Git/rtp_prod2/emis
-addpath /home/strow/Matlab/Math
+addpath ~/Git/rtp_prod2/grib
+addpath ~/Git/rtp_prod2/util
+addpath ~/Git/rtp_prod2/emis
+addpath ~/Matlab/Math
 
 loc='LIN';
 
