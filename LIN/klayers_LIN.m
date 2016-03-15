@@ -13,16 +13,16 @@ klayers = '/asl/packages/klayersV205/BinV201/klayers_airs_wetwater';
 
 % Call Klayers for ERA
 % 
-fip = [loc,'_era_AIRS_wv.rtp'];
-fop = [loc,'_era_AIRS_layers.rtp'];
+fip = [loc,'_era_AIRS_wv_lls.rtp'];
+fop = [loc,'_era_AIRS_layers_lls.rtp'];
 klayerser = ['!' klayers ' fin=' fip ' fout=' fop '> junk_era.dat'];
 eval(klayerser)
 
 
 
 % Call Klayers for gruan data 
-fip_gruan = [loc,'_AIRS_wv.rtp'];
-fop_gruan = [loc,'_AIRS_layers.rtp'];
+fip_gruan = [loc,'_AIRS_wv_lls.rtp'];
+fop_gruan = [loc,'_AIRS_layers_lls.rtp'];
 
 klayerser_gruan =['!' klayers ' fin=' fip_gruan ' fout=' fop_gruan '> junk.dat'];
 eval(klayerser_gruan)

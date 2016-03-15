@@ -13,8 +13,8 @@ addpath /asl/matlib/h4tools
 loc='LIN';
 
 
-filein_gruan=[loc,'_AIRS_layers.rtp']; 
-filein_era=[loc,'_era_AIRS_layers.rtp']; 
+filein_gruan=[loc,'_AIRS_layers_lls.rtp']; 
+filein_era=[loc,'_era_AIRS_layers_lls.rtp']; 
 [h ha p pa]=rtpread(filein_gruan); 
 [h_era ha_era p_era pa_era]=rtpread(filein_era); 
 
@@ -58,5 +58,5 @@ for iprof=1:nprof
 end 
 
 
-fileout=[loc,'_AIRS_adjust_layers.rtp']; 
+fileout=[loc,'_AIRS_adjust_layers_lls.rtp']; 
 rtpwrite(fileout,h,{},p,{}); 
