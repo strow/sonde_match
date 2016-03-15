@@ -16,7 +16,7 @@ loc = 'twp';
 % twp_files=textscan(fid,'%s');
 % [nfiles junk]=size(twp_files{1});
 %nfiles=5; 
-armpath=['/Users/strow/Work/Sondes/Armbe/' loc];
+armpath=['~/Work/Sondes/Armbe/' loc];
 afiles = dir(fullfile(armpath,'*.cdf'));
 nfiles = length(afiles);
 
