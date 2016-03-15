@@ -35,23 +35,40 @@ prof.alts = NaN(101,nfiles);
 %Loop through twp sonde files 
 for i=1:nfiles
 
-    file_temp        = afiles(i).name;
-    fname            = fullfile(armpath,file_temp);
-    mtime            = datetime([file_temp(11:18) file_temp(20:23)],'InputFormat','yyyyMMddHHmm');
-    rtime            = dtime2tai(mtime);
-    lat              = ncread(fname,'latSite');
-    lon              = ncread(fname,'lonSite');
-    otime            = ncread(fname,'overpassTime'); 
-    altitude         = ncread(fname,'altitude'); 
-    timesonde        = ncread(fname,'timeSonde1'); 
-    presssonde       = ncread(fname,'pressureSonde1'); 
-    temperaturesonde = ncread(fname,'temperatureSonde1'); 
-    rhsonde          = ncread(fname,'mwr_rhSonde1'); 
-    wvsonde          = ncread(fname,'mwr_wvSonde1'); 
-    latsonde         = ncread(fname,'latSonde1'); 
-    lonsonde         = ncread(fname,'lonSonde1'); 
-    wspdsonde        = ncread(fname,'wspdSonde1'); 
-    wdirsonde        = ncread(fname,'wdirSonde1'); 
+   file_temp        = afiles(i).name;
+   fname            = fullfile(armpath,file_temp);
+   d = read_netcdf_lls(fname);
+
+   mtime            = datetime([file_temp(11:18) file_temp(20:23)],'InputFormat','yyyyMMddHHmm');
+   rtime            = dtime2tai(mtime);
+
+   lat              = d.latSite;
+   lon              = d.lonSite;
+   otime            = d.overpassTime; 
+   altitude         = d.altitude; 
+   timesonde        = d.timeSonde1; 
+   presssonde       = d.pressureSonde1; 
+   temperaturesonde = d.temperatureSonde1; 
+   rhsonde          = d.mwr_rhSonde1; 
+   wvsonde          = d.mwr_wvSonde1; 
+   latsonde         = d.latSonde1; 
+   lonsonde         = d.lonSonde1; 
+   wspdsonde        = d.wspdSonde1; 
+   wdirsonde        = d.wdirSonde1; 
+
+%    lat              = ncread(fname,'latSite');
+%    lon              = ncread(fname,'lonSite');
+%    otime            = ncread(fname,'overpassTime'); 
+%    altitude         = ncread(fname,'altitude'); 
+%    timesonde        = ncread(fname,'timeSonde1'); 
+%    presssonde       = ncread(fname,'pressureSonde1'); 
+%    temperaturesonde = ncread(fname,'temperatureSonde1'); 
+%    rhsonde          = ncread(fname,'mwr_rhSonde1'); 
+%    wvsonde          = ncread(fname,'mwr_wvSonde1'); 
+%    latsonde         = ncread(fname,'latSonde1'); 
+%    lonsonde         = ncread(fname,'lonSonde1'); 
+%    wspdsonde        = ncread(fname,'wspdSonde1'); 
+%    wdirsonde        = ncread(fname,'wdirSonde1'); 
 
    % Assign rtp
 % sonde vars can contain NaNs, *assume* only at end!!
