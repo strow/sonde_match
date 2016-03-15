@@ -1,0 +1,42 @@
+          time        timeSonde1
+         press	      pressureSonde1
+          temp	      temperatureSonde1
+            rh	      mwr_rhSonde1
+          wdir	      wdirSonde1
+        wspeed	      wspdSonde1   
+        geopot	         
+           lon	      lonSonde1
+           lat	      latSonde1
+           alt	      altitude
+             u	         
+             v	         
+            FP	         
+          WVMR	         
+           asc	      
+         SWrad	         
+       u_SWrad	         
+      cor_temp	         
+    u_cor_temp	         
+    u_std_temp	         
+        u_temp	         
+         u_alt	         
+       u_press	         
+        res_rh	         
+      u_std_rh	         
+        cor_rh	      
+      u_cor_rh
+          u_rh
+        u_wdir
+      u_wspeed
+
+
+       
+       
+               ascSonde1   ascent rate
+
+         temperatureSite
+    temperatureSiteSigma
+                  rhSite
+             rhSiteSigma
+                  wvSite
+             wvSiteSigma
