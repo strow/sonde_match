@@ -1,47 +1,39 @@
-% airs_gruan_matchup.m
-%
-% read sonde profiles, find AIRS matchups
-% All data is on levels!
-%
+function [] = airs_gruan_matchup(loc);
 
-loc = 'LIN';
-year = '2014'; 
+gruan = false;
+inst  = 'AIRIBRAD';
 
 addpath /asl/packages/time
-addpath /asl/matlib_new/aslutil
-addpath /asl/matlib_new/h4tools
-addpath /asl/matlib_new/rtptools
-addpath /home/tangborn/gruan_proc/airsind/
+addpath /asl/matlib/aslutil
+addpath /asl/matlib/h4tools
+addpath /asl/matlib/rtptools
+addpath /asl/packages/l1indexing/airs
 addpath /asl/matlab2012/airs/readers/
-%addpath /home/sbuczko1/git/rtp_prod2/emis/
-%addpath /home/sbuczko1/git/rtp_prod2/util
 addpath /asl/packages/rtp_prod2/emis
 addpath /asl/packages/rtp_prod2/util 
-addpath /home/strow/Git/rtp_prod2/grib
-addpath /home/strow/Matlab/Math
-
-rfile = [loc ,'_',year,'.rtp'];
-
-% Sonde profiles "_s"
-[head_s, hattr_s, prof_s, pattr_s] = rtpread(rfile);
-% debug next line
-% [head_s,prof_s] = subset_rtp(head_s,prof_s,[],[],[1:40:length(prof_s.plat)]);
-nprof = length(prof_s.plat);
-
-% Read in uncertainty profile
-rfile2=[loc,'_',year,'_uncert.rtp'];
-[head_unc, hattr_unc, prof_unc, pattr_unc] = rtpread(rfile2); 
+addpath ~/Git/rtp_prod2/grib
+addpath ~/Matlab/Math
 
 load('/home/strow/Matlab/Airs/airs_f');
 freq = f;
 
+rfile = [loc '/' loc '.rtp'];
+
+% Sonde profiles "_s"
+[head_s, hattr_s, prof_s, pattr_s] = rtpread(rfile);
+nprof = length(prof_s.plat);
+
+% Read in uncertainty profile
+if gruan
+   rfile2=[loc,'_',year,'_uncert.rtp'];
+   [head_unc, hattr_unc, prof_unc, pattr_unc] = rtpread(rfile2);
+end
+
 % Find matchups and fill prof_era with AIRS data, etc
 k = 1;
-for i = 1:nprof % nprof;
+for i = 1:nprof
    current_time=datestr(tai2dnum(prof_s.ptime(i)))
    [prof_s.plat(i), prof_s.plon(i)];
-
-   inst = 'AIRIBRAD';   % AIRS radiances
 
    dt = 60 * 60 * 2;  % time window
    t1 = tai2airs(prof_s.ptime(i)) - dt;
@@ -109,32 +101,21 @@ prof_s.ptime = pst.ptime(iuse);
 clear pst
 
 % Subset uncert file for iuse
-prof_unc = rtp_sub_prof(prof_unc,iuse);
+if gruan
+   prof_unc = rtp_sub_prof(prof_unc,iuse);
+end
 
 % Remove bad profiles
 k = find(prof_s.nlevs > 0);
 if k < length(prof_s.nlevs)
-  [head_s,prof_s] = subset_rtp(head_s,prof_s,[],[],k);
-  [head_era,prof_era] = subset_rtp(head_era,prof_era,[],[],k);
-  [head2,prof2] = subset_rtp(head2,prof2,[],[],k);
+   [head_s,prof_s] = subset_rtp(head_s,prof_s,[],[],k);
+   [head_era,prof_era] = subset_rtp(head_era,prof_era,[],[],k);
+   [head2,prof2] = subset_rtp(head2,prof2,[],[],k);
 end
 
 if min(prof_s.gas_1(:)) < 0
    disp('negative water');
 end
-
-% good_wv=find(min(prof_new.gas_1)>0);
-% [head_wv prof_wv]=subset_rtp(head_new,prof_new,[],[],good_wv); 
-% [head_era_wv prof_era_wv]=subset_rtp(head_era_new, prof_era_new,[],[],good_wv); 
-
-% Subset prof2 so that it only inclues profiles where nlevs>0.
-% prof2_sub=rtp_sub_prof(prof2,junk);
-% prof2_wv=rtp_sub_prof(prof2_sub,good_wv); 
-
-% k = find(isnan(prof.solzen) == 0);     % Remove profiles where solzen=0 (since no AIRS obs there).
-% prof_s = rtp_sub_prof(prof_wv,k);
-% prof_era = rtp_sub_prof(prof_era_wv,k); % subset ERA profiles 
-% prof2 = rtp_sub_prof(prof2_wv,k);    % subset uncertainties in the same way
 
 head_s.ichan = (1:2378)';
 head_s.vchan = f(:);
@@ -150,29 +131,21 @@ head_era.nchan = 2378;
 pattr_s   = set_attr('profiles','robs1','AIRSL1b');
 pattr_era = set_attr('profiles','robs1','AIRSL1b');
 
-%prof_s.rlat   = double(prof_s.rlat);
-%prof_era.rlat = double(prof_era.rlat);
-%prof_s.rlon   = double(prof_s.rlon);
-%prof_era.rlon = double(prof_era.rlon);
-
-% Add emissivity
-%x=prof_s; 
-%x.rlat=double(prof_s.rlat);
-%x.rlon=double(prof_s.rlon); 
-%x.rtime=double(prof_s.rtime); 
-%[prof_s, pattr_s] = rtp_add_emis(x,pattr_s); 
 [prof_s, pattr_s] = rtp_add_emis(prof_s,pattr_s);
 [prof_era, pattr_era] = rtp_add_emis(prof_era,pattr_era);
 
 % Write out RTP File for combined AIRS and Sonde data
-outfile=[loc,'_AIRS_',year,'.rtp'];
+outfile=[loc '/' loc,'_AIRS.rtp'];
 rtpwrite(outfile,head_s,{},prof_s,{});
 
 % Write out RTP File for combined AIRS and ERA data
-outfile_era=[loc,'_era_AIRS_',year,'.rtp']; 
+outfile_era=[loc '/' loc,'_era_AIRS.rtp']; 
 rtpwrite(outfile_era,head_era,{},prof_era,{}); 
 
 % Write out RTP file for sonde uncertainties a the same times/locations
 % There is no AIRS data in these files, but they are restricted to AIRS matchups.
-outfile2=[loc '_AIRS_',year,'_uncert.rtp']; 
-rtpwrite(outfile2,head_unc,{},prof_unc,{}); 
+if gruan
+   outfile2=[loc '/' loc '_AIRS_',year,'_uncert.rtp']; 
+   rtpwrite(outfile2,head_unc,{},prof_unc,{});
+end
+
